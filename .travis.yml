@@ -1,0 +1,29 @@
+sudo: false
+language: cpp
+env:
+  global:
+  - SDK_BUILD=258
+  - secure: CR/myifk0ZVscGhVo7o2Gk5pTeZkLSeID/XWkuJeY2vexqCniIcRGYNky1O5KQJ9XsI2TZjIp85TwtyEPDXJV0E7ZRW+X7u6/O8iyXVmFmzg9TJbk/2YLX7CvJouY7h3bk4drGaOytD4Qu6tTbksgeSA71rzKn8RNDdiaozffrboB0gh2dmaMpxk3ObaeYfin3EOFzuH22Ofnw6hW5T38wli43Wvo4Z4lcv9evDFPh1rb5LIchVPrHKoH5h8rNX7wn57QGwHMTPrGLqRXQCloqvTJve3O6RkLcQBLFGcCWgQCDd9VXsYjywJ4zFNnEfZfobfbala+yODduoMeDboquv1qk+FUFbhwQOctyNu7JNeWwqqCGYaDwj4ydZnyLKyLxm3k+u8BcywFXoKw+pFAqmGVK6raCdCxaEiy+grhGhlwadDIh7Z1FWa+8Lm2ZiX2Q+vIOzKD65Ouv4Jgh+3qFObs3GoG1t7htC/UfzsfMfH+SHl6ns+j6AeRvTngNDlKW5SV9LXkqE03gYkhCtajm8B/O6RMaI7p0iAPK1pjyvdV0ErZSkl4r6sCL30EQUagHNApzK3xwF2/Kichgp8Esx2AAsoHGKhLfpHaGjh94EsVZooH6iJ6KNWdN5wWSZBnHhx56Ew6ZxpP7NfJKthmHzwRaihGUg6N12khI355ww=
+matrix:
+  include:
+  - os: linux
+    env: SDK_VERSION=1.5.0
+git:
+  submodules: false
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+install:
+- wget https://raw.githubusercontent.com/attachix/ukit/master/.travis/update-parent.sh
+  && chmod a+x update-parent.sh
+script:
+- env
+- export DEPLOY='true'
+deploy:
+  provider: script
+  script: sh $TRAVIS_BUILD_DIR/update-parent.sh "ukit" "enclosure"
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: "$DEPLOY == true"
